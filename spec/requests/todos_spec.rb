@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Todos API', type: :request do
     let!(:todos) { create_list(:todo, 10)  }
-    let(:todo_id) { todo.first.id }
+    let(:todo_id) { todos.first.id }
 
     describe 'GET /todos' do
         before { get '/todos' }    
@@ -42,10 +42,10 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     describe 'POST /todos' do
-        let(:valid_attributes) { { title: 'Test Title', created_by: '1' }  }
+        let(:valid_attributes) { { title: 'Test Title', created_by: '1' } }
 
         context 'when the request is valid' do
-            before { post '/todos', params: valid_attributes  }
+            before { post '/todos', params: valid_attributes }
 
             it 'creates a todo' do
                 expect(json['title']).to eq('Test Title')
@@ -73,7 +73,7 @@ RSpec.describe 'Todos API', type: :request do
             before { put "/todos/#{todo_id}", params: valid_attributes }
 
             it 'updates the record' do
-                expect(reponse.body).to be_empty
+                expect(response.body).to be_empty
             end
             it 'returns status code 204' do
                 expect(response).to have_http_status(204)
@@ -82,7 +82,7 @@ RSpec.describe 'Todos API', type: :request do
     end
 
     describe 'DELETE /todos/:id' do
-        before { delete "todos/#{todo_id}" }
+        before { delete "/todos/#{todo_id}" }
 
         it 'returns status code 204' do
             expect(response).to have_http_status(204)
